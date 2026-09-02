@@ -3,6 +3,31 @@
 import { useCallback, useRef, useState } from "react";
 import type { ScanKKResult } from "../types/kk";
 
+/** Compress & resize image using canvas. Returns base64 without prefix. */
+function compressImage(file: File, maxDim: number, quality: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const ratio = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { reject(new Error("Canvas not supported")); return; }
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL("image/jpeg", quality);
+      resolve(dataUrl.split(",")[1]);
+    };
+    img.onerror = () => reject(new Error("Gagal memuat gambar"));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 interface ImageUploaderProps {
   onScanComplete?: (result: ScanKKResult) => void;
 }
@@ -73,27 +98,30 @@ export default function ImageUploader({ onScanComplete }: ImageUploaderProps) {
     setScanResult(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      const base64 = btoa(
-        new Uint8Array(arrayBuffer).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
+      // Compress gambar sebelum kirim (max 1024px, quality 80%)
+      const compressedBase64 = await compressImage(file, 1024, 0.8);
 
       const res = await fetch("/api/scan-kk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          imageBase64: base64,
-          mimeType: file.type,
+          imageBase64: compressedBase64,
+          mimeType: "image/jpeg",
         }),
       });
 
-      const data = await res.json();
+      // Handle non-JSON response (misal 413 dari Vercel)
+      const text = await res.text();
+      let data: unknown;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(`Server mengembalikan response tidak valid (${res.status})`);
+      }
 
       if (!res.ok) {
-        throw new Error(data.error || `Error ${res.status}`);
+        const errData = data as { error?: string };
+        throw new Error(errData.error || `Error ${res.status}`);
       }
 
       const result = data as ScanKKResult;
