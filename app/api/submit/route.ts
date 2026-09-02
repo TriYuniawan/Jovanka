@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabase } from "@/app/lib/supabase";
+import { appendToSheet } from "@/app/lib/google-sheets";
 import { formSchema } from "@/app/lib/validation";
 
 export async function POST(request: Request) {
@@ -21,14 +22,9 @@ export async function POST(request: Request) {
     }
 
     const d = result.data;
-
-    // Hitung derived fields dari data yang dikirim
-    // (client sudah hitung, tapi server juga hitung untuk konsistensi)
-    // Untuk sebelumnya kita simpan apa adanya dari client
-
-    // Ambil derived fields dari body (dikirim client)
     const { anakKe, jumlahSaudara, umur: umurVal } = body;
 
+    // 1. Simpan ke Supabase
     const { error: dbError } = await getSupabase().from("submissions").insert({
       nama_anak: d.namaAnak,
       nik_anak: d.nikAnak,
@@ -68,6 +64,50 @@ export async function POST(request: Request) {
         { error: "Gagal menyimpan ke database" },
         { status: 500 }
       );
+    }
+
+    // 2. Sinkronisasi ke Google Sheets (opsional, tidak blokir submit jika gagal)
+    const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
+    if (spreadsheetId) {
+      try {
+        const now = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
+        await appendToSheet(spreadsheetId, "Sheet1!A:A", [
+          now,
+          d.namaAnak,
+          d.nikAnak,
+          d.jkAnak,
+          d.ttlAnak,
+          d.namaAyah,
+          d.namaIbu,
+          d.alamat,
+          d.nomorKK,
+          anakKe ?? "",
+          jumlahSaudara ?? "",
+          umurVal ?? "",
+          d.nikAyah,
+          d.ttlAyah,
+          d.pekerjaanAyah || "",
+          d.nikIbu,
+          d.ttlIbu,
+          d.pekerjaanIbu || "",
+          d.nomorHPAyah || "",
+          d.nomorHPIbu || "",
+          d.alamatDomisili || "",
+          d.nis || "",
+          d.nisn || "",
+          d.asalSekolah,
+          d.kelas,
+          d.agama,
+          d.penghasilanAyah || "",
+          d.penghasilanIbu || "",
+          d.hobi || "",
+          d.citaCita || "",
+          d.catatanKhusus || "",
+        ]);
+      } catch (sheetErr) {
+        // Gagal sinkron ke Sheets tidak memblokir submit
+        console.error("Google Sheets sync error:", sheetErr);
+      }
     }
 
     return NextResponse.json({ success: true });

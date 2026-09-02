@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 const SUMOPOD_ENDPOINT = "https://ai.sumopod.com/v1/chat/completions";
-const MODEL = "qwen3.6-flash";
+const MODEL = "qwen3.7-flash-2026-07-15";
 
 const SYSTEM_PROMPT = `Kamu adalah sistem OCR untuk Kartu Keluarga (KK) Indonesia. Tugasmu adalah mengekstrak SELURUH data dari gambar Kartu Keluarga yang diberikan.
 
