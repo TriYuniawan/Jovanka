@@ -33,7 +33,7 @@ export const formSchema = z.object({
   alamatDomisili: z.string().optional().default(""),
   nis: z.string().optional().default(""),
   nisn: z.string().optional().default(""),
-  asalSekolah: z.string().min(1, "Asal sekolah wajib diisi"),
+  asalSekolah: z.string().optional().default(""),
   kelas: z.string().min(1, "Kelas wajib diisi"),
   agama: z.string().min(1, "Agama wajib dipilih"),
   penghasilanAyah: z.string().optional().default(""),

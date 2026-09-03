@@ -231,6 +231,25 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
           <FieldInput label="Anak Ke-" value={anakKe > 0 ? String(anakKe) : ""} onChange={() => {}} readOnly placeholder="Otomatis" />
           <FieldInput label="Jumlah Saudara Kandung" value={String(jumlahSaudara)} onChange={() => {}} readOnly />
           <FieldInput label="Umur" value={umur} onChange={() => {}} readOnly />
+          <div data-error={!!errors.agama || undefined}>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">
+              Agama <span className="text-red-500">*</span>
+            </label>
+            <select value={agama} onChange={(e) => setAgama(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.agama ? "border-red-400 bg-red-50" : "border-slate-300 bg-white"}`}>
+              <option value="">— Pilih —</option>
+              {["Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"].map((r) => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
+            {errors.agama && <p className="text-xs text-red-600 mt-1">{errors.agama}</p>}
+          </div>
+          <FieldInput label="NIS" value={nis} onChange={setNis} placeholder="Nomor Induk Siswa (opsional)" />
+          <FieldInput label="NISN" value={nisn} onChange={setNisn} placeholder="Nomor Induk Siswa Nasional (opsional)" />
+          <FieldInput label="Asal Sekolah" value={asalSekolah} onChange={setAsalSekolah} placeholder="Opsional" />
+          <div data-error={!!errors.kelas || undefined}>
+            <FieldInput label="Kelas yang Didaftar" value={kelas} onChange={setKelas} required placeholder="Contoh: Kelas 1" error={errors.kelas} />
+          </div>
         </div>
       </section>
 
@@ -251,6 +270,7 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlAyah} onChange={setTtlAyah} required error={errors.ttlAyah} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanAyah} onChange={setPekerjaanAyah} />
+          <FieldInput label="Nomor HP" value={nomorHPAyah} onChange={setNomorHPAyah} placeholder="Contoh: 08123456789 (opsional)" />
         </div>
       </section>
 
@@ -271,6 +291,7 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlIbu} onChange={setTtlIbu} required error={errors.ttlIbu} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanIbu} onChange={setPekerjaanIbu} />
+          <FieldInput label="Nomor HP" value={nomorHPIbu} onChange={setNomorHPIbu} placeholder="Contoh: 08123456789 (opsional)" />
         </div>
       </section>
 
@@ -279,33 +300,6 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
         <h3 className="text-lg font-semibold text-slate-800">Data Tambahan</h3>
         <p className="text-sm text-slate-500">Field berikut tidak ada di KK dan harus diisi manual.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <FieldInput label="Nomor HP Ayah" value={nomorHPAyah} onChange={setNomorHPAyah} placeholder="Contoh: 08123456789 (opsional)" />
-          <FieldInput label="Nomor HP Ibu" value={nomorHPIbu} onChange={setNomorHPIbu} placeholder="Contoh: 08123456789 (opsional)" />
-          <div data-error={!!errors.agama || undefined}>
-            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">
-              Agama <span className="text-red-500">*</span>
-            </label>
-            <select value={agama} onChange={(e) => setAgama(e.target.value)}
-              className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.agama ? "border-red-400 bg-red-50" : "border-slate-300 bg-white"}`}>
-              <option value="">— Pilih —</option>
-              {["Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"].map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-            {errors.agama && <p className="text-xs text-red-600 mt-1">{errors.agama}</p>}
-          </div>
-          <div data-error={!!errors.nis || undefined}>
-            <FieldInput label="NIS" value={nis} onChange={setNis} placeholder="Nomor Induk Siswa (opsional)" error={errors.nis} />
-          </div>
-          <div data-error={!!errors.nisn || undefined}>
-            <FieldInput label="NISN" value={nisn} onChange={setNisn} placeholder="Nomor Induk Siswa Nasional (opsional)" error={errors.nisn} />
-          </div>
-          <div data-error={!!errors.asalSekolah || undefined}>
-            <FieldInput label="Asal Sekolah" value={asalSekolah} onChange={setAsalSekolah} required error={errors.asalSekolah} />
-          </div>
-          <div data-error={!!errors.kelas || undefined}>
-            <FieldInput label="Kelas yang Didaftar" value={kelas} onChange={setKelas} required placeholder="Contoh: Kelas 1" error={errors.kelas} />
-          </div>
           <div className="sm:col-span-2">
             <FieldInput label="Alamat Domisili" value={alamatDomisili} onChange={setAlamatDomisili} placeholder="Isi hanya jika berbeda dari alamat KK" />
           </div>
