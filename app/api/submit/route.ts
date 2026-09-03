@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Sinkronisasi ke Google Sheets (opsional, tidak blokir submit jika gagal)
+    // 2. Sinkronisasi ke Google Sheets (opsional, tidak blokir submit jika gagal..)
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
     if (spreadsheetId) {
       try {
