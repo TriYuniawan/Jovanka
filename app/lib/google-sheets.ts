@@ -8,7 +8,7 @@ function getAuth() {
 
   if (!email || !key) {
     throw new Error(
-      "GOOGLE_SERVICE_ACCOUNT_EMAIL dan GOOGLE_PRIVATE_KEY harus diisi di .env.local"
+      "GOOGLE_SERVICE_ACCOUNT_EMAIL dan GOOGLE_PRIVATE_KEY harus diisi di .env.local",
     );
   }
 
@@ -22,7 +22,7 @@ function getAuth() {
 export async function appendToSheet(
   spreadsheetId: string,
   range: string,
-  values: (string | number | null)[]
+  values: (string | number | null)[],
 ) {
   const auth = getAuth();
   const sheets = google.sheets({ version: "v4", auth });
@@ -36,3 +36,4 @@ export async function appendToSheet(
     },
   });
 }
+//
