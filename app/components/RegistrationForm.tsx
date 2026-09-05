@@ -22,12 +22,21 @@ function parseDate(str: string): Date | null {
   return isNaN(d.getTime()) ? null : d;
 }
 
-function calcAge(birthDateStr: string): string {
+/** Hitung tahun ajaran dari tahun sekarang (pendaftaran untuk tahun depan) */
+function getAcademicYear(): { start: number; end: number; refDate: Date } {
+  const start = new Date().getFullYear() + 1;
+  return {
+    start,
+    end: start + 1,
+    refDate: new Date(start, 6, 1), // 1 Juli
+  };
+}
+
+function calcAge(birthDateStr: string, refDate: Date): string {
   const birth = parseDate(birthDateStr);
   if (!birth) return "";
-  const now = new Date();
-  let years = now.getFullYear() - birth.getFullYear();
-  let months = now.getMonth() - birth.getMonth();
+  let years = refDate.getFullYear() - birth.getFullYear();
+  let months = refDate.getMonth() - birth.getMonth();
   if (months < 0) { years--; months += 12; }
   const parts: string[] = [];
   if (years > 0) parts.push(`${years} tahun`);
@@ -95,7 +104,8 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
     () => calcChildStats(anggota, selection.childIndex),
     [anggota, selection.childIndex]
   );
-  const umur = useMemo(() => calcAge(child.tanggalLahir), [child.tanggalLahir]);
+  const academicYear = useMemo(() => getAcademicYear(), []);
+  const umur = useMemo(() => calcAge(child.tanggalLahir, academicYear.refDate), [child.tanggalLahir, academicYear.refDate]);
 
   // Identitas Anak
   const [namaAnak, setNamaAnak] = useState(child.nama);
@@ -172,6 +182,7 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
           anakKe: anakKe > 0 ? anakKe : null,
           jumlahSaudara,
           umur: umur || null,
+          tahunAjaran: `${academicYear.start}/${academicYear.end}`,
         }),
       });
       const data = await res.json();
@@ -230,7 +241,15 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
           </div>
           <FieldInput label="Anak Ke-" value={anakKe > 0 ? String(anakKe) : ""} onChange={() => {}} readOnly placeholder="Otomatis" />
           <FieldInput label="Jumlah Saudara Kandung" value={String(jumlahSaudara)} onChange={() => {}} readOnly />
-          <FieldInput label="Umur" value={umur} onChange={() => {}} readOnly />
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Umur</label>
+            <div className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm text-slate-600">
+              {umur || "—"}
+            </div>
+            <p className="text-xs text-blue-600 mt-1">
+              📅 T.A. {academicYear.start}/{academicYear.end} — per 1 Juli {academicYear.start}
+            </p>
+          </div>
           <div data-error={!!errors.agama || undefined}>
             <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">
               Agama <span className="text-red-500">*</span>

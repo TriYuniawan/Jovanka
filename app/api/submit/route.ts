@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     }
 
     const d = result.data;
-    const { anakKe, jumlahSaudara, umur: umurVal } = body;
+    const { anakKe, jumlahSaudara, umur: umurVal, tahunAjaran } = body;
 
     // 1. Simpan ke Supabase
     const { error: dbError } = await getSupabase()
@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         anak_ke: anakKe ?? null,
         jumlah_saudara: jumlahSaudara ?? null,
         umur: umurVal ?? null,
+        tahun_ajaran: tahunAjaran ?? null,
         nik_ayah: d.nikAyah,
         ttl_ayah: d.ttlAyah,
         pekerjaan_ayah: d.pekerjaanAyah || null,
@@ -88,6 +89,7 @@ export async function POST(request: Request) {
           anakKe ?? "",
           jumlahSaudara ?? "",
           umurVal ?? "",
+          tahunAjaran ?? "",
           d.nikAyah,
           d.ttlAyah,
           d.pekerjaanAyah || "",

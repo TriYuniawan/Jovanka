@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   anak_ke INTEGER,
   jumlah_saudara INTEGER,
   umur TEXT,
+  tahun_ajaran TEXT,
 
   -- Identitas Ayah
   nik_ayah TEXT NOT NULL,
