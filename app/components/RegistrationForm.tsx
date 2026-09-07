@@ -306,16 +306,7 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlAyah} onChange={setTtlAyah} required error={errors.ttlAyah} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanAyah} onChange={setPekerjaanAyah} />
-          <div>
-            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Pendidikan</label>
-            <select value={pendidikanAyah} onChange={(e) => setPendidikanAyah(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">— Pilih —</option>
-              {["SD", "SMP", "SMA/SMK", "D1", "D2", "D3", "S1", "S2", "S3"].map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
-          </div>
+          <FieldInput label="Pendidikan" value={pendidikanAyah} onChange={setPendidikanAyah} placeholder="Dari scan KK (opsional)" />
           <div>
             <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Golongan Darah</label>
             <select value={golonganDarahAyah} onChange={(e) => setGolonganDarahAyah(e.target.value)}
@@ -347,16 +338,7 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlIbu} onChange={setTtlIbu} required error={errors.ttlIbu} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanIbu} onChange={setPekerjaanIbu} />
-          <div>
-            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Pendidikan</label>
-            <select value={pendidikanIbu} onChange={(e) => setPendidikanIbu(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">— Pilih —</option>
-              {["SD", "SMP", "SMA/SMK", "D1", "D2", "D3", "S1", "S2", "S3"].map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
-          </div>
+          <FieldInput label="Pendidikan" value={pendidikanIbu} onChange={setPendidikanIbu} placeholder="Dari scan KK (opsional)" />
           <div>
             <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Golongan Darah</label>
             <select value={golonganDarahIbu} onChange={(e) => setGolonganDarahIbu(e.target.value)}
