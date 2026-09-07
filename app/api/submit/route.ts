@@ -89,7 +89,6 @@ export async function POST(request: Request) {
           anakKe ?? "",
           jumlahSaudara ?? "",
           umurVal ?? "",
-          tahunAjaran ?? "",
           d.nikAyah,
           d.ttlAyah,
           d.pekerjaanAyah || "",
