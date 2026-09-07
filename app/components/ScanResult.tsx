@@ -71,6 +71,8 @@ function AnggotaTable({ anggota }: { anggota: AnggotaKeluarga[] }) {
               <Field label="Tempat Lahir" value={a.tempatLahir} />
               <Field label="Tanggal Lahir" value={a.tanggalLahir} />
               <Field label="Pekerjaan" value={a.pekerjaan} />
+              <Field label="Pendidikan" value={a.pendidikan} />
+              <Field label="Gol. Darah" value={a.golonganDarah} />
             </dl>
           </div>
         ))}

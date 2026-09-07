@@ -121,11 +121,15 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
   const [nikAyah, setNikAyah] = useState(father?.nik ?? "");
   const [ttlAyah, setTtlAyah] = useState(father ? [father.tempatLahir, father.tanggalLahir].filter(Boolean).join(", ") : "");
   const [pekerjaanAyah, setPekerjaanAyah] = useState(father?.pekerjaan ?? "");
+  const [pendidikanAyah, setPendidikanAyah] = useState(father?.pendidikan ?? "");
+  const [golonganDarahAyah, setGolonganDarahAyah] = useState(father?.golonganDarah ?? "");
 
   // Identitas Ibu
   const [nikIbu, setNikIbu] = useState(mother?.nik ?? "");
   const [ttlIbu, setTtlIbu] = useState(mother ? [mother.tempatLahir, mother.tanggalLahir].filter(Boolean).join(", ") : "");
   const [pekerjaanIbu, setPekerjaanIbu] = useState(mother?.pekerjaan ?? "");
+  const [pendidikanIbu, setPendidikanIbu] = useState(mother?.pendidikan ?? "");
+  const [golonganDarahIbu, setGolonganDarahIbu] = useState(mother?.golonganDarah ?? "");
 
   // Field Manual (section 6.3)
   const [nomorHPAyah, setNomorHPAyah] = useState("");
@@ -142,6 +146,9 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
   const [citaCita, setCitaCita] = useState("");
   const [catatanKhusus, setCatatanKhusus] = useState("");
 
+  // Golongan Darah Anak
+  const [golonganDarah, setGolonganDarah] = useState(child.golonganDarah ?? "");
+
   // Validasi
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -152,9 +159,9 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
     e.preventDefault();
     const values = {
       namaAnak, nikAnak, jkAnak, ttlAnak, namaAyah, namaIbu, alamat, nomorKK,
-      nikAyah, ttlAyah, pekerjaanAyah,
-      nikIbu, ttlIbu, pekerjaanIbu,
-      nomorHPAyah, nomorHPIbu, alamatDomisili, nis, nisn, asalSekolah, kelas, agama,
+      nikAyah, ttlAyah, pekerjaanAyah, pendidikanAyah, golonganDarahAyah,
+      nikIbu, ttlIbu, pekerjaanIbu, pendidikanIbu, golonganDarahIbu,
+      nomorHPAyah, nomorHPIbu, alamatDomisili, nis, nisn, asalSekolah, kelas, agama, golonganDarah,
       penghasilanAyah, penghasilanIbu, hobi, citaCita, catatanKhusus,
     };
     const result = formSchema.safeParse(values);
@@ -263,6 +270,16 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             </select>
             {errors.agama && <p className="text-xs text-red-600 mt-1">{errors.agama}</p>}
           </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Golongan Darah</label>
+            <select value={golonganDarah} onChange={(e) => setGolonganDarah(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">— Pilih —</option>
+              {["A", "B", "AB", "O"].map((g) => (
+                <option key={g} value={g}>{g}</option>
+              ))}
+            </select>
+          </div>
           <FieldInput label="NIS" value={nis} onChange={setNis} placeholder="Nomor Induk Siswa (opsional)" />
           <FieldInput label="NISN" value={nisn} onChange={setNisn} placeholder="Nomor Induk Siswa Nasional (opsional)" />
           <FieldInput label="Asal Sekolah" value={asalSekolah} onChange={setAsalSekolah} placeholder="Opsional" />
@@ -289,6 +306,26 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlAyah} onChange={setTtlAyah} required error={errors.ttlAyah} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanAyah} onChange={setPekerjaanAyah} />
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Pendidikan</label>
+            <select value={pendidikanAyah} onChange={(e) => setPendidikanAyah(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">— Pilih —</option>
+              {["SD", "SMP", "SMA/SMK", "D1", "D2", "D3", "S1", "S2", "S3"].map((p) => (
+                <option key={p} value={p}>{p}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Golongan Darah</label>
+            <select value={golonganDarahAyah} onChange={(e) => setGolonganDarahAyah(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">— Pilih —</option>
+              {["A", "B", "AB", "O"].map((g) => (
+                <option key={g} value={g}>{g}</option>
+              ))}
+            </select>
+          </div>
           <FieldInput label="Nomor HP" value={nomorHPAyah} onChange={setNomorHPAyah} placeholder="Contoh: 08123456789 (opsional)" />
         </div>
       </section>
@@ -310,6 +347,26 @@ export default function RegistrationForm({ data, selection, onSubmit }: Props) {
             <FieldInput label="Tempat, Tanggal Lahir" value={ttlIbu} onChange={setTtlIbu} required error={errors.ttlIbu} />
           </div>
           <FieldInput label="Pekerjaan" value={pekerjaanIbu} onChange={setPekerjaanIbu} />
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Pendidikan</label>
+            <select value={pendidikanIbu} onChange={(e) => setPendidikanIbu(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">— Pilih —</option>
+              {["SD", "SMP", "SMA/SMK", "D1", "D2", "D3", "S1", "S2", "S3"].map((p) => (
+                <option key={p} value={p}>{p}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Golongan Darah</label>
+            <select value={golonganDarahIbu} onChange={(e) => setGolonganDarahIbu(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">— Pilih —</option>
+              {["A", "B", "AB", "O"].map((g) => (
+                <option key={g} value={g}>{g}</option>
+              ))}
+            </select>
+          </div>
           <FieldInput label="Nomor HP" value={nomorHPIbu} onChange={setNomorHPIbu} placeholder="Contoh: 08123456789 (opsional)" />
         </div>
       </section>

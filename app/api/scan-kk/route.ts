@@ -35,7 +35,9 @@ SKEMA JSON yang WAJIB dikembalikan:
       "tempatLahir": "",
       "tanggalLahir": "",
       "statusHubungan": "",
-      "pekerjaan": ""
+      "pekerjaan": "",
+      "pendidikan": "",
+      "golonganDarah": ""
     }
   ]
 }

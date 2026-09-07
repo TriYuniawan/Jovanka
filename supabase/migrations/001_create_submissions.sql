@@ -23,11 +23,15 @@ CREATE TABLE IF NOT EXISTS submissions (
   nik_ayah TEXT NOT NULL,
   ttl_ayah TEXT NOT NULL,
   pekerjaan_ayah TEXT,
+  pendidikan_ayah TEXT,
+  golongan_darah_ayah TEXT,
 
   -- Identitas Ibu
   nik_ibu TEXT NOT NULL,
   ttl_ibu TEXT NOT NULL,
   pekerjaan_ibu TEXT,
+  pendidikan_ibu TEXT,
+  golongan_darah_ibu TEXT,
 
   -- Field Manual
   nomor_hp_ayah TEXT,
@@ -38,6 +42,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   asal_sekolah TEXT NOT NULL,
   kelas TEXT NOT NULL,
   agama TEXT NOT NULL,
+  golongan_darah TEXT,
   penghasilan_ayah TEXT,
   penghasilan_ibu TEXT,
   hobi TEXT,

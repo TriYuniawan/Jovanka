@@ -7,6 +7,8 @@ export interface AnggotaKeluarga {
   tanggalLahir: string;
   statusHubungan: string;
   pekerjaan: string;
+  pendidikan: string;
+  golonganDarah: string;
 }
 
 /** Header Kartu Keluarga */

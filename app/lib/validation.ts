@@ -21,11 +21,15 @@ export const formSchema = z.object({
   nikAyah: z.string().min(1, "NIK ayah wajib diisi"),
   ttlAyah: z.string().min(1, "Tempat/tanggal lahir ayah wajib diisi"),
   pekerjaanAyah: z.string().optional().default(""),
+  pendidikanAyah: z.string().optional().default(""),
+  golonganDarahAyah: z.string().optional().default(""),
 
   // === Identitas Ibu (dari KK) ===
   nikIbu: z.string().min(1, "NIK ibu wajib diisi"),
   ttlIbu: z.string().min(1, "Tempat/tanggal lahir ibu wajib diisi"),
   pekerjaanIbu: z.string().optional().default(""),
+  pendidikanIbu: z.string().optional().default(""),
+  golonganDarahIbu: z.string().optional().default(""),
 
   // === Field Manual (section 6.3) ===
   nomorHPAyah: z.string().optional().default(""),
@@ -36,6 +40,7 @@ export const formSchema = z.object({
   asalSekolah: z.string().optional().default(""),
   kelas: z.string().min(1, "Kelas wajib diisi"),
   agama: z.string().min(1, "Agama wajib dipilih"),
+  golonganDarah: z.string().optional().default(""),
   penghasilanAyah: z.string().optional().default(""),
   penghasilanIbu: z.string().optional().default(""),
   hobi: z.string().optional().default(""),
