@@ -78,7 +78,7 @@ export async function POST(request: Request) {
         const now = new Date().toLocaleString("id-ID", {
           timeZone: "Asia/Jakarta",
         });
-        await appendToSheet(spreadsheetId, "'PPDB-JOVANKA V2'!A:A", [
+        await appendToSheet(spreadsheetId, "'Sheet1'!A:A", [
           now,
           d.namaAnak,
           d.nikAnak,
