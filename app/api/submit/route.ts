@@ -78,40 +78,40 @@ export async function POST(request: Request) {
         const now = new Date().toLocaleString("id-ID", {
           timeZone: "Asia/Jakarta",
         });
-        await appendToSheet(spreadsheetId, "'Sheet1'!A:A", [
-          now,                    // Waktu
-          d.namaAnak,             // Nama Anak
-          d.kelas,                // Kelas
-          d.jkAnak,               // JK
-          d.nis || "",            // NIS
-          d.nisn || "",           // NISN
-          d.ttlAnak,              // TTL
-          umurVal ?? "",          // Umur
-          d.nomorKK,              // Nomor KK
-          d.nikAnak,              // NIK
-          d.agama,                // Agama
-          d.alamat,               // Alamat
-          anakKe ?? "",           // Anak Ke
-          jumlahSaudara ?? "",    // Jumlah Saudara
-          d.namaAyah,             // Nama Ayah
-          d.nikAyah,              // NIK Ayah
-          d.ttlAyah,              // TTL Ayah
+        await appendToSheet(spreadsheetId, "'SPMB Awal'!A:A", [
+          now, // Waktu
+          d.namaAnak, // Nama Anak
+          d.kelas, // Kelas
+          d.jkAnak, // JK
+          d.nis || "", // NIS
+          d.nisn || "", // NISN
+          d.ttlAnak, // TTL
+          umurVal ?? "", // Umur
+          d.nomorKK, // Nomor KK
+          d.nikAnak, // NIK
+          d.agama, // Agama
+          d.alamat, // Alamat
+          anakKe ?? "", // Anak Ke
+          jumlahSaudara ?? "", // Jumlah Saudara
+          d.namaAyah, // Nama Ayah
+          d.nikAyah, // NIK Ayah
+          d.ttlAyah, // TTL Ayah
           d.pendidikanAyah || "", // Pendidikan Ayah
-          d.pekerjaanAyah || "",  // Pekerjaan Ayah
-          d.penghasilanAyah || "",// Penghasilan Ayah
-          d.nomorHPAyah || "",    // HP Ayah
-          d.namaIbu,              // Nama Ibu
-          d.nikIbu,               // NIK Ibu
-          d.ttlIbu,               // TTL Ibu
-          d.pendidikanIbu || "",  // Pendidikan Ibu
-          d.pekerjaanIbu || "",   // Pekerjaan Ibu
+          d.pekerjaanAyah || "", // Pekerjaan Ayah
+          d.penghasilanAyah || "", // Penghasilan Ayah
+          d.nomorHPAyah || "", // HP Ayah
+          d.namaIbu, // Nama Ibu
+          d.nikIbu, // NIK Ibu
+          d.ttlIbu, // TTL Ibu
+          d.pendidikanIbu || "", // Pendidikan Ibu
+          d.pekerjaanIbu || "", // Pekerjaan Ibu
           d.penghasilanIbu || "", // Penghasilan Ibu
-          d.nomorHPIbu || "",     // HP Ibu
+          d.nomorHPIbu || "", // HP Ibu
           d.alamatDomisili || "", // Domisili
-          d.asalSekolah,          // Asal Sekolah
-          d.hobi || "",           // Hobi
-          d.citaCita || "",       // Cita-cita
-          d.catatanKhusus || "",  // Catatan
+          d.asalSekolah, // Asal Sekolah
+          d.hobi || "", // Hobi
+          d.citaCita || "", // Cita-cita
+          d.catatanKhusus || "", // Catatan
         ]);
       } catch (sheetErr) {
         // Gagal sinkron ke Sheets tidak memblokir submit
